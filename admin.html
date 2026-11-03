@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Doblette · Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Kaushan+Script&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c; --panel:#161616; --panel2:#1f1f1f; --line:#2c2c2c;
+  --text:#f5efe4; --muted:#a8a197; --red:#e4232b; --blue:#2b7fd6; --gold:#f5b324; --green:#25d366;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:400 17px/1.5 Oswald,system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+input,textarea,select{width:100%;background:var(--panel2);border:1px solid #3a3a3a;border-radius:10px;padding:11px 12px;color:var(--text);font:inherit;font-size:1rem}
+textarea{resize:vertical;min-height:90px}
+label{display:grid;gap:5px;font-size:.95rem;color:var(--muted)}
+label b{color:var(--text);font-weight:500}
+.hint{color:var(--muted);font-size:.88rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;transition:background .2s,transform .15s}
+.btn:active{transform:scale(.97)}
+/* rojo un poco más oscuro que el de la marca para que el texto blanco se lea bien (contraste AA) */
+.btn.red{background:#c41c24} .btn.red:hover{background:#a8161d}
+.btn.green{background:var(--green);color:#04210f}
+.btn.ghost{border:1px solid #555} .btn.ghost:hover{background:#262626}
+.btn.small{padding:7px 14px;font-size:.8rem}
+.btn[disabled]{opacity:.5;cursor:default}
+
+header{position:sticky;top:0;z-index:20;background:rgba(12,12,12,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo b{font:400 1.9rem "Kaushan Script",cursive;color:#fff}
+.logo span{color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+#status{font-size:.85rem;color:var(--muted)}
+#status.dirty{color:var(--gold)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:16px}
+.banner{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner.warn{border-color:#6b5414;background:#1d1708}
+.banner.ok{border-color:#1d5c34;background:#0d1a12}
+details summary{cursor:pointer;font-weight:500}
+details ol{margin:10px 0 0 20px;color:var(--muted)}
+details li{margin-top:4px}
+
+.tabs{display:flex;gap:8px;margin-top:22px;overflow-x:auto}
+.tabs button{flex:none;padding:9px 18px;border-radius:999px;border:1px solid var(--line);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.88rem;font-weight:500}
+.tabs button[aria-selected=true]{background:#fff;color:#000;border-color:#fff}
+.view[hidden]{display:none}
+.tools{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.tools input{flex:1;min-width:200px}
+
+.cat{margin-top:26px}
+.cat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cat-head h2{font:400 1.6rem "Bowlby One";text-transform:uppercase;line-height:1.1}
+.cat-head .note{color:var(--gold);font-size:.9rem}
+.rows{margin-top:10px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.row{display:grid;grid-template-columns:1fr 130px auto;gap:12px;align-items:center;padding:12px 14px;background:var(--panel);border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row .name{font-weight:600;font-size:1.05rem;line-height:1.25}
+.row .sub{color:var(--muted);font-size:.85rem;line-height:1.3;margin-top:2px}
+.price-in{position:relative}
+.price-in::before{content:"$";position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.price-in input{padding-left:24px;font-variant-numeric:tabular-nums}
+.by-opt{color:var(--muted);font-size:.85rem;text-align:center}
+.row .ops{display:flex;gap:6px}
+.icon{width:38px;height:38px;border-radius:10px;background:var(--panel2);display:grid;place-items:center;font-size:1rem}
+.icon:hover{background:#2a2a2a}
+.icon.del:hover{background:#3a1416;color:#ff8f94}
+.empty{color:var(--muted);padding:16px;text-align:center;background:var(--panel)}
+.xrow{display:grid;grid-template-columns:1fr 130px 38px;gap:10px;align-items:center;padding:10px 14px;background:var(--panel);border-top:1px solid var(--line)}
+.xrow:first-child{border-top:0}
+.grid2{display:grid;gap:16px}
+
+dialog{border:0;color:var(--text);background:var(--panel);border-radius:18px;width:min(620px,100%);max-height:92vh;margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+.dlg{display:flex;flex-direction:column;max-height:92vh}
+.dlg-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.dlg-head h3{font:400 1.4rem "Bowlby One";text-transform:uppercase}
+.dlg-body{padding:18px 20px;overflow-y:auto;display:grid;gap:16px}
+.dlg-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+.check{display:flex;gap:10px;align-items:flex-start;color:var(--text)}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--red);flex:none}
+.opt-box{border:1px dashed #444;border-radius:12px;padding:14px;display:grid;gap:10px}
+.opt-row{display:grid;grid-template-columns:1fr 120px 38px;gap:8px}
+.err{color:#ff8f94;font-size:.95rem;min-height:1.2em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(30px);opacity:0;background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:600;transition:all .25s;z-index:60;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:640px){
+  .row{grid-template-columns:1fr 110px;}
+  .row .ops{grid-column:1/-1;justify-content:flex-end}
+  .two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="logo"><b>Doblette</b><span>Panel de administración</span></div>
+    <div class="actions">
+      <a class="btn ghost small" href="index.html?preview" target="_blank" rel="noopener">Ver cómo queda</a>
+      <button class="btn red small" id="publish">Guardar y publicar</button>
+    </div>
+  </div>
+  <div class="wrap" style="padding-bottom:8px"><span id="status">Sin cambios</span></div>
+</header>
+
+<main class="wrap">
+  <div class="card banner" id="connBox"></div>
+  <div class="card banner warn" id="draftBox" hidden>
+    <span>Tienes cambios de la vez pasada que no se publicaron.</span>
+    <span class="actions"><button class="btn small ghost" id="draftDiscard">Descartarlos</button><button class="btn small red" id="draftKeep">Seguir con ellos</button></span>
+  </div>
+
+  <details class="card">
+    <summary>¿Cómo se usa?</summary>
+    <ol>
+      <li>Cambia lo que quieras: precios, productos nuevos, ingredientes, extras u horario.</li>
+      <li>Toca <b>Ver cómo queda</b> para mirar la página con tus cambios antes de publicarlos.</li>
+      <li>Toca <b>Guardar y publicar</b>. En 1 o 2 minutos los clientes ven la página actualizada.</li>
+    </ol>
+  </details>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-view="vProducts">Productos</button>
+    <button role="tab" aria-selected="false" data-view="vExtras">Extras para los platos</button>
+    <button role="tab" aria-selected="false" data-view="vInfo">Datos del negocio</button>
+  </div>
+
+  <section class="view" id="vProducts">
+    <div class="tools">
+      <input type="search" id="search" placeholder="Buscar un producto…" aria-label="Buscar producto">
+      <button class="btn red" id="addProduct">+ Agregar producto</button>
+    </div>
+    <div id="cats"></div>
+    <div class="tools"><button class="btn ghost" id="addCat">+ Nueva categoría</button></div>
+  </section>
+
+  <section class="view" id="vExtras" hidden>
+    <p class="hint" style="margin-top:18px">Son los extras que el cliente puede sumar a hamburguesas, pepitos, perros, patacones y tacos (por ejemplo “+ Tocineta”).</p>
+    <div class="rows" id="extras" style="margin-top:12px"></div>
+    <div class="tools"><button class="btn ghost" id="addExtra">+ Agregar extra</button></div>
+  </section>
+
+  <section class="view" id="vInfo" hidden>
+    <div class="card grid2">
+      <label><b>Número de WhatsApp donde llegan los pedidos</b>
+        <input id="iWa" inputmode="numeric" placeholder="584120491805">
+        <span class="hint">Con el código del país (58) y sin el “+”, espacios ni guiones. Ej: 584120491805</span>
+      </label>
+      <label><b>Horario</b><input id="iHor" placeholder="Martes a Domingo · desde las 6:00 pm"></label>
+      <label><b>Dirección</b><input id="iDir" placeholder="Yaritagua, Yaracuy, Venezuela"></label>
+      <div class="err" id="iErr" role="alert"></div>
+    </div>
+  </section>
+</main>
+
+<!-- Formulario de producto -->
+<dialog id="pDlg" aria-labelledby="pTitle">
+  <form class="dlg" id="pForm" novalidate>
+    <div class="dlg-head"><h3 id="pTitle">Producto</h3><button type="button" class="icon" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-body">
+      <label><b>Categoría</b>
+        <select id="fCat"></select>
+      </label>
+      <label id="fCatNewWrap" hidden><b>Nombre de la nueva categoría</b><input id="fCatNew" placeholder="Ej: Postres"></label>
+      <div class="two">
+        <label><b>Nombre del producto *</b><input id="fName" placeholder="Ej: Doblette"></label>
+        <label><b>Precio en $ *</b><input id="fPrice" type="number" min="0" step="0.5" inputmode="decimal" placeholder="14"></label>
+      </div>
+      <label><b>Porción o proteína</b><input id="fPortion" placeholder="Ej: 400g de carne de res (2 × 200g)"><span class="hint">Opcional. Sale en negrita debajo del nombre.</span></label>
+      <label><b>Descripción</b><input id="fDesc" placeholder="Ej: Alitas de pollo bañadas en salsa BBQ"><span class="hint">Opcional.</span></label>
+      <label><b>Ingredientes</b>
+        <textarea id="fIngr" placeholder="Lechuga&#10;Tomate&#10;Pepinillo&#10;Salsa de la casa"></textarea>
+        <span class="hint">Uno por línea. El cliente podrá quitar los que no quiera al pedir.</span>
+      </label>
+      <label class="check"><input type="checkbox" id="fExtras"><span>El cliente puede agregarle extras (tocineta, guacamole…)</span></label>
+      <label class="check"><input type="checkbox" id="fHasOpt"><span>El cliente debe elegir una opción (por ejemplo la proteína: pollo, lomito o mechada)</span></label>
+      <div class="opt-box" id="fOptBox" hidden>
+        <label><b>¿Qué elige?</b><input id="fOptTitle" placeholder="Ej: Proteína"></label>
+        <div class="hint">Opciones. Deja el precio vacío si cuesta lo mismo que el producto.</div>
+        <div id="fOpts" style="display:grid;gap:8px"></div>
+        <div><button type="button" class="btn ghost small" id="fAddOpt">+ Otra opción</button></div>
+      </div>
+      <div class="err" id="fErr" role="alert"></div>
+    </div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-close>Cancelar</button><button class="btn red" type="submit">Guardar producto</button></div>
+  </form>
+</dialog>
+
+<!-- Categoría -->
+<dialog id="cDlg" aria-labelledby="cTitle">
+  <form class="dlg" id="cForm" novalidate>
+    <div class="dlg-head"><h3 id="cTitle">Categoría</h3><button type="button" class="icon" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-body">
+      <label><b>Nombre *</b><input id="cName" placeholder="Ej: Postres"></label>
+      <label><b>Nota</b><input id="cNote" placeholder="Ej: Incluyen papas"><span class="hint">Opcional. Sale debajo del título de la categoría.</span></label>
+      <div class="err" id="cErr" role="alert"></div>
+    </div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" id="cDelete" hidden>Eliminar categoría</button><button type="button" class="btn ghost" data-close>Cancelar</button><button class="btn red" type="submit">Guardar</button></div>
+  </form>
+</dialog>
+
+<!-- Conexión -->
+<dialog id="kDlg" aria-labelledby="kTitle">
+  <form class="dlg" id="kForm" novalidate>
+    <div class="dlg-head"><h3 id="kTitle">Conectar el panel</h3><button type="button" class="icon" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-body">
+      <p class="hint">Esto se hace una sola vez en cada computadora o celular. Pega la clave de acceso que te dio quien hizo la página.</p>
+      <label><b>Clave de acceso</b><input id="kToken" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+      <details><summary class="hint">Datos técnicos (normalmente no hay que tocarlos)</summary>
+        <div class="grid2" style="margin-top:12px">
+          <label>Usuario u organización de GitHub<input id="kOwner"></label>
+          <label>Repositorio<input id="kRepo"></label>
+          <label>Rama<input id="kBranch"></label>
+        </div>
+      </details>
+      <div class="err" id="kErr" role="alert"></div>
+    </div>
+    <div class="dlg-foot"><button type="button" class="btn ghost" data-close>Cancelar</button><button class="btn red" type="submit" id="kSubmit">Conectar</button></div>
+  </form>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="menu.js"></script>
+<script>
+// Dónde vive la página en GitHub (lo llena quien instala la página una sola vez)
+const GITHUB_DEFAULT = { owner: 'jesusgarcia1371', repo: 'doblette-web', branch: 'main', path: 'menu.js' };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = v => '$' + Number(v).toFixed(2);
+const clone = o => JSON.parse(JSON.stringify(o));
+const store = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del: k => { try { localStorage.removeItem(k); } catch {} }
+};
+const DRAFT = 'doblette-admin-draft', CONN = 'doblette-admin-conn';
+
+let published = clone(window.MENU_DATA);   // última versión publicada
+published.info = published.info || {};
+let data = clone(published);               // lo que se está editando
+let sha = null;                            // versión del archivo en GitHub
+
+function toast(msg, ms = 2600) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), ms);
+}
+const isDirty = () => JSON.stringify(data) !== JSON.stringify(published);
+function changed() {
+  store.set(DRAFT, data);
+  const d = isDirty();
+  $('#status').textContent = d ? '● Hay cambios sin publicar' : 'Todo publicado';
+  $('#status').classList.toggle('dirty', d);
+  if (!d) $('#draftBox').hidden = true;
+}
+window.addEventListener('beforeunload', e => { if (isDirty()) { e.preventDefault(); e.returnValue = ''; } });
+
+// ---------- Archivo menu.js ----------
+const toFile = d => '// Menú y datos de Doblette. Este archivo lo genera el panel de administrador (admin.html).\nwindow.MENU_DATA = ' + JSON.stringify(d, null, 1) + ';\n';
+const fromFile = txt => JSON.parse(txt.slice(txt.indexOf('=') + 1).trim().replace(/;\s*$/, ''));
+const b64encode = s => { const b = new TextEncoder().encode(s); let bin = ''; b.forEach(x => bin += String.fromCharCode(x)); return btoa(bin); };
+const b64decode = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), c => c.charCodeAt(0)));
+
+// ---------- Conexión con GitHub ----------
+const conn = () => store.get(CONN);
+const api = (c, extra = '') => `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path}${extra}`;
+const headers = c => ({ Authorization: 'Bearer ' + c.token, Accept: 'application/vnd.github+json' });
+
+async function loadRemote(c) {
+  const r = await fetch(api(c, '?ref=' + encodeURIComponent(c.branch)), { headers: headers(c), cache: 'no-store' });
+  if (r.status === 401 || r.status === 403) throw new Error('La clave de acceso no es válida o no tiene permiso.');
+  if (r.status === 404) throw new Error('No se encontró la página en GitHub. Revisa los datos técnicos.');
+  if (!r.ok) throw new Error('No se pudo conectar (' + r.status + '). Revisa el internet.');
+  const j = await r.json();
+  return { sha: j.sha, data: fromFile(b64decode(j.content)) };
+}
+async function saveRemote(c) {
+  const body = { message: 'Menú actualizado desde el panel', content: b64encode(toFile(data)), sha, branch: c.branch };
+  const r = await fetch(api(c), { method: 'PUT', headers: { ...headers(c), 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (r.status === 409 || r.status === 422) throw new Error('Alguien más publicó cambios mientras editabas. Recarga el panel e inténtalo de nuevo.');
+  if (r.status === 401 || r.status === 403) throw new Error('La clave de acceso ya no es válida. Vuelve a conectar el panel.');
+  if (!r.ok) throw new Error('No se pudo publicar (' + r.status + '). Revisa el internet e inténtalo otra vez.');
+  sha = (await r.json()).content.sha;
+}
+
+function renderConn() {
+  const c = conn(), box = $('#connBox');
+  box.className = 'card banner ' + (c ? 'ok' : 'warn');
+  box.innerHTML = c
+    ? `<span>✓ Panel conectado. “Guardar y publicar” actualiza la página directamente.</span><button class="btn small ghost" id="disconnect">Desconectar</button>`
+    : `<span>El panel no está conectado: “Guardar y publicar” descargará el archivo <b>menu.js</b> para subirlo a mano.</span><button class="btn small red" id="connect">Conectar</button>`;
+  $('#publish').textContent = c ? 'Guardar y publicar' : 'Descargar menú';
+}
+$('#connBox').addEventListener('click', e => {
+  if (e.target.id === 'connect') {
+    const d = { ...GITHUB_DEFAULT, ...(conn() || {}) };
+    $('#kOwner').value = d.owner; $('#kRepo').value = d.repo; $('#kBranch').value = d.branch; $('#kToken').value = '';
+    $('#kErr').textContent = ''; $('#kDlg').showModal();
+  }
+  if (e.target.id === 'disconnect' && confirm('¿Desconectar el panel en este equipo?')) { store.del(CONN); sha = null; renderConn(); }
+});
+$('#kForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const c = { owner: $('#kOwner').value.trim(), repo: $('#kRepo').value.trim(), branch: $('#kBranch').value.trim() || 'main', path: GITHUB_DEFAULT.path, token: $('#kToken').value.trim() };
+  if (!c.token) return $('#kErr').textContent = 'Pega la clave de acceso.';
+  if (!c.owner || !c.repo) return $('#kErr').textContent = 'Faltan los datos técnicos (usuario y repositorio). Pídeselos a quien hizo la página.';
+  $('#kSubmit').disabled = true; $('#kErr').textContent = 'Conectando…';
+  try {
+    const remote = await loadRemote(c);
+    store.set(CONN, c); sha = remote.sha;
+    published = remote.data; published.info = published.info || {};
+    if (!isDirty() || confirm('Se cargó el menú publicado. ¿Descartar los cambios que tenías sin publicar?')) data = clone(published);
+    $('#kDlg').close(); renderConn(); renderAll(); changed(); toast('Panel conectado ✓');
+  } catch (err) { $('#kErr').textContent = err.message; }
+  $('#kSubmit').disabled = false;
+});
+
+// ---------- Publicar ----------
+$('#publish').addEventListener('click', async () => {
+  if (!validInfo()) { showView('vInfo'); return; }
+  const c = conn();
+  if (!c) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([toFile(data)], { type: 'text/javascript' }));
+    a.download = 'menu.js'; a.click(); URL.revokeObjectURL(a.href);
+    toast('Se descargó menu.js. Súbelo a la página reemplazando el anterior.', 4000);
+    return;
+  }
+  if (!isDirty()) return toast('No hay cambios para publicar');
+  const b = $('#publish'); b.disabled = true; b.textContent = 'Publicando…';
+  try {
+    if (!sha) sha = (await loadRemote(c)).sha;
+    await saveRemote(c);
+    published = clone(data); changed();
+    toast('¡Listo! En 1 o 2 minutos los clientes verán los cambios.', 4500);
+  } catch (err) { alert(err.message); }
+  b.disabled = false; renderConn();
+});
+
+// ---------- Pestañas ----------
+function showView(id) {
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === id));
+  document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== id);
+}
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => showView(b.dataset.view));
+
+// ---------- Productos ----------
+function itemSub(it) {
+  return [it.g, it.d, it.r && it.r.length && it.r.length + ' ingredientes', it.o && 'elige ' + it.o.t.toLowerCase(), it.x && 'admite extras'].filter(Boolean).join(' · ');
+}
+const optPriced = it => it.o && it.o.c.some(c => c[1] != null);
+function renderProducts() {
+  const q = $('#search').value.trim().toLowerCase();
+  $('#cats').innerHTML = data.menu.map((c, ci) => {
+    const items = c.items.map((it, ii) => [it, ii]).filter(([it]) => !q || it.n.toLowerCase().includes(q));
+    if (q && !items.length) return '';
+    return `<div class="cat">
+      <div class="cat-head"><div><h2>${esc(c.cat)}</h2>${c.note ? `<div class="note">${esc(c.note)}</div>` : ''}</div>
+        <button class="btn ghost small" data-cat="${ci}">Editar categoría</button></div>
+      <div class="rows">${items.length ? items.map(([it, ii]) => `
+        <div class="row">
+          <div><div class="name">${esc(it.n)}</div><div class="sub">${esc(itemSub(it))}</div></div>
+          ${optPriced(it) ? `<div class="by-opt">Precio según ${esc(it.o.t.toLowerCase())}</div>`
+            : `<div class="price-in"><input type="number" min="0" step="0.5" inputmode="decimal" value="${it.p}" data-price="${ci}:${ii}" aria-label="Precio de ${esc(it.n)}"></div>`}
+          <div class="ops">
+            <button class="icon" data-move="${ci}:${ii}:-1" aria-label="Subir" title="Subir" ${ii === 0 ? 'disabled' : ''}>↑</button>
+            <button class="icon" data-move="${ci}:${ii}:1" aria-label="Bajar" title="Bajar" ${ii === c.items.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="icon" data-edit="${ci}:${ii}" aria-label="Editar" title="Editar">✎</button>
+            <button class="icon del" data-del="${ci}:${ii}" aria-label="Eliminar" title="Eliminar">🗑</button>
+          </div>
+        </div>`).join('') : '<div class="empty">Esta categoría no tiene productos todavía (no se muestra en la página).</div>'}
+      </div></div>`;
+  }).join('') || '<p class="hint" style="margin-top:20px">No se encontró ningún producto.</p>';
+}
+$('#search').addEventListener('input', renderProducts);
+$('#cats').addEventListener('change', e => {
+  const k = e.target.dataset.price; if (!k) return;
+  const [ci, ii] = k.split(':').map(Number), v = parseFloat(e.target.value);
+  if (!(v >= 0)) { e.target.value = data.menu[ci].items[ii].p; return toast('Escribe un precio válido'); }
+  data.menu[ci].items[ii].p = Math.round(v * 100) / 100; changed(); toast('Precio actualizado: ' + money(v));
+});
+$('#cats').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.cat) return openCat(+b.dataset.cat);
+  if (b.dataset.edit) { const [ci, ii] = b.dataset.edit.split(':').map(Number); return openProduct(ci, ii); }
+  if (b.dataset.del) {
+    const [ci, ii] = b.dataset.del.split(':').map(Number), it = data.menu[ci].items[ii];
+    if (!confirm(`¿Eliminar “${it.n}” del menú?`)) return;
+    data.menu[ci].items.splice(ii, 1); changed(); renderProducts(); toast('Producto eliminado');
+  }
+  if (b.dataset.move) {
+    const [ci, ii, d] = b.dataset.move.split(':').map(Number), arr = data.menu[ci].items;
+    [arr[ii], arr[ii + d]] = [arr[ii + d], arr[ii]]; changed(); renderProducts();
+  }
+});
+
+// ---------- Formulario de producto ----------
+let editing = null; // [ci, ii] o null si es nuevo
+function optRow(name = '', price = '') {
+  const d = document.createElement('div'); d.className = 'opt-row';
+  d.innerHTML = `<input class="on" placeholder="Ej: Pollo" value="${esc(name)}" aria-label="Nombre de la opción">
+    <div class="price-in"><input class="op" type="number" min="0" step="0.5" inputmode="decimal" placeholder="Igual" value="${price ?? ''}" aria-label="Precio de la opción"></div>
+    <button type="button" class="icon del" aria-label="Quitar opción">✕</button>`;
+  d.querySelector('button').onclick = () => d.remove();
+  $('#fOpts').append(d);
+}
+function openProduct(ci = null, ii = null) {
+  editing = ci === null ? null : [ci, ii];
+  const it = editing ? data.menu[ci].items[ii] : {};
+  $('#pTitle').textContent = editing ? 'Editar producto' : 'Nuevo producto';
+  $('#fCat').innerHTML = data.menu.map((c, i) => `<option value="${i}">${esc(c.cat)}</option>`).join('') + '<option value="new">+ Nueva categoría…</option>';
+  $('#fCat').value = editing ? ci : 0;
+  $('#fCatNewWrap').hidden = true; $('#fCatNew').value = '';
+  $('#fName').value = it.n || ''; $('#fPrice').value = it.p ?? '';
+  $('#fPortion').value = it.g || ''; $('#fDesc').value = it.d || '';
+  $('#fIngr').value = (it.r || []).join('\n');
+  $('#fExtras').checked = !!it.x;
+  $('#fHasOpt').checked = !!it.o; $('#fOptBox').hidden = !it.o;
+  $('#fOptTitle').value = it.o ? it.o.t : '';
+  $('#fOpts').innerHTML = '';
+  (it.o ? it.o.c : [['', null], ['', null]]).forEach(c => optRow(c[0], c[1]));
+  $('#fErr').textContent = '';
+  $('#pDlg').showModal(); $('#fName').focus();
+}
+$('#addProduct').onclick = () => openProduct();
+$('#fCat').onchange = () => { $('#fCatNewWrap').hidden = $('#fCat').value !== 'new'; };
+$('#fHasOpt').onchange = () => { $('#fOptBox').hidden = !$('#fHasOpt').checked; };
+$('#fAddOpt').onclick = () => optRow();
+$('#pForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = m => { $('#fErr').textContent = m; };
+  const name = $('#fName').value.trim();
+  if (!name) return err('Escribe el nombre del producto.');
+  let catIdx = $('#fCat').value;
+  if (catIdx === 'new') {
+    const cn = $('#fCatNew').value.trim();
+    if (!cn) return err('Escribe el nombre de la nueva categoría.');
+    if (data.menu.some(c => c.cat.toLowerCase() === cn.toLowerCase())) return err('Ya existe una categoría con ese nombre.');
+  }
+  const it = { n: name };
+  const price = parseFloat($('#fPrice').value);
+  let opts = null;
+  if ($('#fHasOpt').checked) {
+    const title = $('#fOptTitle').value.trim();
+    const rows = [...$('#fOpts').children].map(r => [r.querySelector('.on').value.trim(), r.querySelector('.op').value.trim()]).filter(r => r[0]);
+    if (!title) return err('Escribe qué elige el cliente (por ejemplo “Proteína”).');
+    if (rows.length < 2) return err('Agrega al menos dos opciones.');
+    if (rows.some(r => r[1] !== '' && !(parseFloat(r[1]) >= 0))) return err('Revisa los precios de las opciones.');
+    opts = { t: title, c: rows.map(r => r[1] === '' ? [r[0]] : [r[0], Math.round(parseFloat(r[1]) * 100) / 100]) };
+  }
+  const priced = opts && opts.c.filter(c => c[1] != null);
+  if (priced && priced.length && priced.length < opts.c.length && !(price >= 0)) return err('Pon el precio del producto (lo usan las opciones que dejaste “Igual”).');
+  if (priced && priced.length === opts.c.length) it.p = Math.min(...priced.map(c => c[1]));
+  else if (price >= 0 && $('#fPrice').value !== '') it.p = Math.round(price * 100) / 100;
+  else return err('Escribe el precio.');
+  const g = $('#fPortion').value.trim(), d = $('#fDesc').value.trim();
+  const r = $('#fIngr').value.split(/\n|,/).map(s => s.trim()).filter(Boolean);
+  if (g) it.g = g;
+  if (d) it.d = d;
+  if (opts) it.o = opts;
+  if (r.length) it.r = r;
+  if ($('#fExtras').checked) it.x = true;
+  if (editing && data.menu[editing[0]].items[editing[1]].note) it.note = true; // conserva la nota al cliente
+
+  if (catIdx === 'new') { data.menu.push({ cat: $('#fCatNew').value.trim(), items: [] }); catIdx = data.menu.length - 1; }
+  catIdx = +catIdx;
+  if (editing && editing[0] === catIdx) data.menu[catIdx].items[editing[1]] = it;
+  else {
+    if (editing) data.menu[editing[0]].items.splice(editing[1], 1);
+    data.menu[catIdx].items.push(it);
+  }
+  $('#pDlg').close(); changed(); renderProducts();
+  toast(editing ? 'Producto actualizado' : 'Producto agregado');
+});
+
+// ---------- Categorías ----------
+let editingCat = null;
+function openCat(ci = null) {
+  editingCat = ci;
+  const c = ci === null ? {} : data.menu[ci];
+  $('#cTitle').textContent = ci === null ? 'Nueva categoría' : 'Editar categoría';
+  $('#cName').value = c.cat || ''; $('#cNote').value = c.note || ''; $('#cErr').textContent = '';
+  $('#cDelete').hidden = ci === null;
+  $('#cDlg').showModal(); $('#cName').focus();
+}
+$('#addCat').onclick = () => openCat();
+$('#cForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#cName').value.trim(), note = $('#cNote').value.trim();
+  if (!name) return $('#cErr').textContent = 'Escribe el nombre.';
+  if (data.menu.some((c, i) => i !== editingCat && c.cat.toLowerCase() === name.toLowerCase())) return $('#cErr').textContent = 'Ya existe una categoría con ese nombre.';
+  const c = editingCat === null ? { cat: name, items: [] } : data.menu[editingCat];
+  c.cat = name; if (note) c.note = note; else delete c.note;
+  if (editingCat === null) data.menu.push(c);
+  $('#cDlg').close(); changed(); renderProducts(); toast('Categoría guardada');
+});
+$('#cDelete').onclick = () => {
+  const c = data.menu[editingCat];
+  if (c.items.length && !confirm(`“${c.cat}” tiene ${c.items.length} productos. ¿Eliminar la categoría con todos sus productos?`)) return;
+  if (!c.items.length && !confirm(`¿Eliminar la categoría “${c.cat}”?`)) return;
+  data.menu.splice(editingCat, 1); $('#cDlg').close(); changed(); renderProducts(); toast('Categoría eliminada');
+};
+
+// ---------- Extras ----------
+function renderExtras() {
+  $('#extras').innerHTML = data.extras.length ? data.extras.map((x, i) => `
+    <div class="xrow">
+      <input value="${esc(x[0])}" data-xn="${i}" aria-label="Nombre del extra">
+      <div class="price-in"><input type="number" min="0" step="0.5" inputmode="decimal" value="${x[1]}" data-xp="${i}" aria-label="Precio del extra"></div>
+      <button class="icon del" data-xd="${i}" aria-label="Eliminar extra">🗑</button>
+    </div>`).join('') : '<div class="empty">No hay extras.</div>';
+}
+$('#extras').addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.xn) { const v = t.value.trim(); if (!v) { t.value = data.extras[+t.dataset.xn][0]; return toast('El extra necesita un nombre'); } data.extras[+t.dataset.xn][0] = v; }
+  if (t.dataset.xp) { const v = parseFloat(t.value); if (!(v >= 0)) { t.value = data.extras[+t.dataset.xp][1]; return toast('Escribe un precio válido'); } data.extras[+t.dataset.xp][1] = Math.round(v * 100) / 100; }
+  changed();
+});
+$('#extras').addEventListener('click', e => {
+  const b = e.target.closest('[data-xd]'); if (!b) return;
+  const x = data.extras[+b.dataset.xd];
+  if (!confirm(`¿Eliminar el extra “${x[0]}”?`)) return;
+  data.extras.splice(+b.dataset.xd, 1); changed(); renderExtras();
+});
+$('#addExtra').onclick = () => {
+  data.extras.push(['Nuevo extra', 1]); changed(); renderExtras();
+  const inp = $('#extras').querySelector(`[data-xn="${data.extras.length - 1}"]`); inp.focus(); inp.select();
+};
+
+// ---------- Datos del negocio ----------
+function renderInfo() { $('#iWa').value = data.info.whatsapp || ''; $('#iHor').value = data.info.horario || ''; $('#iDir').value = data.info.direccion || ''; }
+function validInfo() {
+  const ok = /^\d{10,15}$/.test(data.info.whatsapp || '');
+  $('#iErr').textContent = ok ? '' : 'El número de WhatsApp debe tener solo números, con el 58 adelante (ej: 584120491805).';
+  return ok;
+}
+$('#iWa').addEventListener('input', e => { data.info.whatsapp = e.target.value.replace(/\D/g, ''); changed(); validInfo(); });
+$('#iHor').addEventListener('input', e => { data.info.horario = e.target.value.trim(); changed(); });
+$('#iDir').addEventListener('input', e => { data.info.direccion = e.target.value.trim(); changed(); });
+
+// ---------- Diálogos ----------
+document.querySelectorAll('dialog').forEach(d => {
+  d.addEventListener('click', e => { if (e.target === d || e.target.closest('[data-close]')) d.close(); });
+});
+
+function renderAll() { renderProducts(); renderExtras(); renderInfo(); }
+
+// ---------- Inicio ----------
+(async function init() {
+  const draft = store.get(DRAFT);
+  if (draft && JSON.stringify(draft) !== JSON.stringify(published)) {
+    $('#draftBox').hidden = false;
+    $('#draftKeep').onclick = () => { data = clone(draft); data.info = data.info || {}; $('#draftBox').hidden = true; renderAll(); changed(); };
+    $('#draftDiscard').onclick = () => { $('#draftBox').hidden = true; store.set(DRAFT, published); };
+  }
+  renderConn(); renderAll(); changed();
+  const c = conn();
+  if (c) {
+    try { const remote = await loadRemote(c); sha = remote.sha; published = remote.data; published.info = published.info || {}; if (!draft || $('#draftBox').hidden) { data = clone(published); renderAll(); } changed(); }
+    catch (err) { toast(err.message, 5000); }
+  }
+})();
+
+// autocomprobación: el archivo generado se puede volver a leer igual
+console.assert(JSON.stringify(fromFile(toFile(published))) === JSON.stringify(published), 'menu.js ida y vuelta');
+console.assert(b64decode(b64encode('Patacón · ñ 🍔')) === 'Patacón · ñ 🍔', 'base64 utf-8');
+</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doblette · Premium Fast Food</title>
+<meta name="description" content="Doblette Premium Fast Food en Yaritagua, Yaracuy. Hamburguesas, pepitos, patacones y más. Haz tu pedido directo por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Kaushan+Script&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0c; --panel:#161616; --panel2:#1f1f1f; --line:#2c2c2c;
+  --text:#f5efe4; --muted:#a8a197;
+  --red:#e4232b; --blue:#2b7fd6; --gold:#f5b324;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:160px}
+body{background:var(--bg);color:var(--text);font:400 16px/1.5 Oswald,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* logo */
+.logo{display:inline-flex;flex-direction:column;align-items:center;line-height:1;text-decoration:none}
+.logo b{font:400 2.1rem "Kaushan Script",cursive;color:#fff;text-shadow:3px 3px 0 #000,4px 4px 0 rgba(255,255,255,.12)}
+.logo small{font:600 .55rem Oswald;letter-spacing:.32em;border-top:2px solid #fff;padding-top:3px;margin-top:2px}
+
+/* header */
+header{position:sticky;top:0;z-index:30;background:rgba(12,12,12,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+.bar nav{display:flex;gap:26px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.9rem}
+.bar nav a{text-decoration:none;color:var(--muted);transition:color .2s}
+.bar nav a:hover{color:#fff}
+.cart-btn{display:flex;align-items:center;gap:8px;background:var(--red);padding:9px 16px;border-radius:999px;font-weight:600;letter-spacing:.04em;transition:transform .15s}
+.cart-btn:active{transform:scale(.96)}
+.cart-btn .count{background:#fff;color:var(--red);min-width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:.8rem;font-variant-numeric:tabular-nums}
+.doodle{height:26px;background:url(img/doodle.jpg) repeat-x center/auto 100%}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(60% 80% at 75% 40%,rgba(245,179,36,.22),transparent 70%),var(--bg)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding-top:72px;padding-bottom:72px}
+.hero .loc{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:.85rem;font-weight:500}
+.hero h1{font:400 clamp(4rem,11vw,8.5rem) "Kaushan Script",cursive;line-height:.95;margin:10px 0 4px;text-shadow:5px 5px 0 #000,7px 7px 0 rgba(255,255,255,.1)}
+.hero .tag{font-weight:600;letter-spacing:.42em;font-size:clamp(.8rem,2.2vw,1.15rem);border-top:3px solid #fff;display:inline-block;padding-top:6px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:30ch;margin:22px 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:transform .15s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn.red{background:var(--red)}
+.btn.red:hover{background:#c91a22}
+.btn.ghost{border:2px solid #fff}
+.btn.ghost:hover{background:#fff;color:#000}
+.btn.wa{background:#25d366;color:#04210f}
+.hero .pics{position:relative;height:420px}
+.ph{display:grid;place-items:center;border:2px dashed #555;border-radius:var(--radius);background:rgba(255,255,255,.03);color:#777;text-transform:uppercase;letter-spacing:.15em;font-size:.85rem}
+.hero .pics .ph{position:absolute;width:62%;background:#141414}
+.hero .pics .ph:first-child{top:0;right:0;aspect-ratio:1;transform:rotate(3deg)}
+.hero .pics .ph:last-child{bottom:0;left:0;aspect-ratio:4/5;height:300px;width:auto;transform:rotate(-4deg)}
+
+/* menu */
+.menu-head{padding:64px 0 10px;text-align:center}
+.menu-head h2,.info h2{font:400 clamp(2.4rem,7vw,4rem) "Bowlby One";letter-spacing:-.01em;line-height:1}
+.menu-head p{color:var(--muted);margin-top:8px}
+.tabs{position:sticky;top:94px;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:12px;padding-bottom:12px;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tabs a{flex:none;padding:8px 16px;border-radius:999px;border:1px solid var(--line);text-decoration:none;text-transform:uppercase;font-weight:500;letter-spacing:.06em;font-size:.88rem;color:var(--muted);transition:all .2s}
+.tabs a.on{background:#fff;color:#000;border-color:#fff}
+.cat{padding:48px 0 8px}
+.cat h3{font:400 clamp(2rem,5vw,3rem) "Bowlby One";text-transform:uppercase;line-height:1}
+.cat .note{color:var(--gold);font-weight:500;letter-spacing:.05em;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:22px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:6px;text-align:left;transition:border-color .2s,transform .2s}
+.item:hover{border-color:#555;transform:translateY(-2px)}
+.item h4{font:400 1.35rem "Bowlby One";line-height:1.1;text-transform:uppercase}
+.item:nth-child(odd) h4{color:var(--blue)}
+.item:nth-child(even) h4{color:var(--red)}
+.item .g{font-weight:600}
+.item .d{color:var(--muted);font-size:.95rem;flex:1}
+.item .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.item .price{font:700 1.4rem Oswald;font-variant-numeric:tabular-nums}
+.item .add{background:#fff;color:#000;border-radius:999px;padding:8px 16px;font-weight:600;text-transform:uppercase;font-size:.85rem;letter-spacing:.05em}
+.item:hover .add{background:var(--red);color:#fff}
+.legal{color:var(--muted);text-align:center;font-size:.9rem;padding:40px 0 70px}
+
+/* info */
+.info{background:var(--panel);border-top:1px solid var(--line)}
+.info .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding-top:70px;padding-bottom:70px}
+.info .ph{width:100%;max-width:340px;aspect-ratio:4/5;justify-self:center;transform:rotate(-2deg)}
+.info dl{display:grid;gap:18px;margin:24px 0 30px}
+.info dt{color:var(--gold);text-transform:uppercase;letter-spacing:.15em;font-size:.8rem;font-weight:500}
+.info dd{font-size:1.25rem;font-weight:500}
+footer{text-align:center;padding:30px 16px 110px;color:var(--muted);font-size:.9rem}
+footer .logo{margin-bottom:10px}
+
+/* dialogs */
+dialog{border:0;color:var(--text);background:var(--panel);max-width:none;max-height:none}
+dialog::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(3px)}
+#itemDlg{width:min(560px,100%);margin:auto;border-radius:18px;max-height:92vh}
+#cartDlg{width:min(440px,100%);height:100%;margin:0 0 0 auto;border-left:1px solid var(--line)}
+.dlg{display:flex;flex-direction:column;max-height:92vh}
+#cartDlg .dlg{height:100%;max-height:100%}
+.dlg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 20px 14px;border-bottom:1px solid var(--line)}
+.dlg-head h3{font:400 1.6rem "Bowlby One";line-height:1.1;text-transform:uppercase}
+.dlg-head p{color:var(--muted);font-size:.95rem;margin-top:4px}
+.x{width:38px;height:38px;flex:none;border-radius:50%;background:var(--panel2);font-size:1.3rem;line-height:1}
+.dlg-body{padding:6px 20px 20px;overflow-y:auto;flex:1}
+.dlg-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:12px;align-items:center}
+fieldset{border:0;margin-top:18px}
+legend{font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;margin-bottom:4px}
+.hint{color:var(--muted);font-size:.85rem;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid #444;font-size:.95rem;transition:all .15s;cursor:pointer;user-select:none}
+.chip input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
+.chip.opt input:checked+span{background:#fff;color:#000;border-color:#fff}
+.chip.rm input:checked+span{background:rgba(228,35,43,.15);border-color:var(--red);color:#ff8f94;text-decoration:line-through}
+.chip.ex input:checked+span{background:rgba(43,127,214,.18);border-color:var(--blue);color:#9cc8ff}
+textarea,input[type=text],select{width:100%;background:var(--panel2);border:1px solid #3a3a3a;border-radius:10px;padding:10px 12px;color:var(--text);font:inherit;font-size:1rem}
+textarea{resize:vertical;min-height:60px}
+.qty{display:flex;align-items:center;border:1px solid #3a3a3a;border-radius:999px}
+.qty button{width:38px;height:38px;font-size:1.2rem}
+.qty output{min-width:24px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.dlg-foot .btn{flex:1;justify-content:center}
+.line{padding:14px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:4px 12px}
+.line h4{font-weight:600;font-size:1.05rem}
+.line ul{list-style:none;color:var(--muted);font-size:.9rem;grid-column:1/-1}
+.line ul .sin{color:#ff8f94}
+.line ul .ext{color:#9cc8ff}
+.line .lp{font-weight:600;font-variant-numeric:tabular-nums}
+.line .ctl{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.line .del{color:var(--muted);text-decoration:underline;font-size:.9rem}
+.empty{color:var(--muted);text-align:center;padding:50px 0}
+.total{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:700;padding:16px 0 4px;font-variant-numeric:tabular-nums}
+.form{display:grid;gap:12px;margin-top:14px}
+.form label{display:grid;gap:4px;font-size:.9rem;color:var(--muted)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg .chip span{display:block;text-align:center}
+.err{color:#ff8f94;font-size:.9rem;min-height:1.2em}
+
+.fab{position:fixed;right:16px;bottom:16px;z-index:25;display:none;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+@keyframes bump{50%{transform:scale(1.15)}}
+.bump{animation:bump .3s}
+
+@media (max-width:820px){
+  .bar nav{display:none}
+  .hero .wrap,.info .wrap{grid-template-columns:1fr}
+  .hero .wrap{padding-top:44px;padding-bottom:50px}
+  .hero .pics{height:300px;max-width:400px}
+  .hero .pics .ph:last-child{height:220px}
+  .fab.show{display:flex}
+  #itemDlg{margin:auto 0 0;border-radius:18px 18px 0 0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Doblette inicio"><b>Doblette</b><small>PREMIUM FAST FOOD</small></a>
+    <nav><a href="#menu">Menú</a><a href="#info">Ubicación</a><a href="https://instagram.com/doblette.ve" target="_blank" rel="noopener">Instagram</a></nav>
+    <button class="cart-btn" data-open-cart aria-label="Ver pedido">Pedido <span class="count">0</span></button>
+  </div>
+  <div class="doodle" aria-hidden="true"></div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="loc">Yaritagua · Yaracuy</div>
+      <h1>Doblette</h1>
+      <div class="tag">PREMIUM FAST FOOD</div>
+      <p>Hamburguesas, pepitos y patacones hechos al momento. Arma tu pedido aquí y envíalo directo a nuestro WhatsApp.</p>
+      <div class="cta">
+        <a class="btn red" href="#menu">Ver menú y pedir</a>
+        <a class="btn ghost" href="#info">Cómo llegar</a>
+      </div>
+    </div>
+    <!-- Espacios para las fotos reales del negocio -->
+    <div class="pics" aria-hidden="true">
+      <div class="ph">Foto del local</div>
+      <div class="ph">Foto de plato</div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="menu-head wrap">
+    <h2>Nuestro Menú</h2>
+    <p>Toca un plato para personalizarlo: quita ingredientes, agrega extras y súmalo a tu pedido.</p>
+  </div>
+  <div class="tabs"><div class="wrap" id="tabs"></div></div>
+  <div class="wrap" id="cats"></div>
+  <p class="legal wrap">Precios expresados en USD a tasa oficial BCV · Precios no incluyen IVA<br>Todos los Pepitos y Hamburguesas incluyen ración de papas francesas</p>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap">
+    <div>
+      <h2>Visítanos</h2>
+      <dl>
+        <div><dt>Dónde</dt><dd id="infoDir">Yaritagua, Yaracuy, Venezuela</dd></div>
+        <div><dt>Horario</dt><dd id="infoHor">Martes a Domingo · desde las 6:00 pm</dd></div>
+        <div><dt>Síguenos</dt><dd><a href="https://instagram.com/doblette.ve" target="_blank" rel="noopener">@doblette.ve</a></dd></div>
+      </dl>
+      <div class="cta">
+        <a class="btn red" href="#menu">Hacer pedido</a>
+        <a class="btn wa" id="waDirect" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+    <div class="ph" aria-hidden="true">Foto de plato</div>
+  </div>
+</section>
+
+<footer>
+  <a class="logo" href="#top"><b>Doblette</b><small>PREMIUM FAST FOOD</small></a>
+  <p>© <span id="year"></span> Doblette · Yaritagua, Yaracuy</p>
+</footer>
+
+<button class="cart-btn fab" data-open-cart aria-label="Ver pedido">Ver pedido <span class="count">0</span></button>
+
+<dialog id="itemDlg" aria-labelledby="itemTitle">
+  <form class="dlg" method="dialog" id="itemForm">
+    <div class="dlg-head">
+      <div><h3 id="itemTitle"></h3><p id="itemDesc"></p></div>
+      <button class="x" value="cancel" aria-label="Cerrar">×</button>
+    </div>
+    <div class="dlg-body" id="itemBody"></div>
+    <div class="dlg-foot">
+      <div class="qty"><button type="button" data-q="-1" aria-label="Menos">−</button><output id="itemQty">1</output><button type="button" data-q="1" aria-label="Más">+</button></div>
+      <button class="btn red" type="submit" id="itemAdd">Agregar</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="cartDlg" aria-labelledby="cartTitle">
+  <div class="dlg">
+    <div class="dlg-head">
+      <div><h3 id="cartTitle">Tu pedido</h3><p>Revisa y envíalo por WhatsApp</p></div>
+      <button class="x" data-close aria-label="Cerrar">×</button>
+    </div>
+    <div class="dlg-body">
+      <div id="cartLines"></div>
+      <div id="checkout">
+        <div class="total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+        <p class="hint">USD a tasa oficial BCV · no incluye IVA</p>
+        <div class="form">
+          <label>Nombre<input type="text" id="cName" autocomplete="name" placeholder="¿A nombre de quién?"></label>
+          <div>
+            <div class="hint" style="margin:0 0 4px">Entrega</div>
+            <div class="seg">
+              <label class="chip opt"><input type="radio" name="mode" value="Delivery" checked><span>Delivery</span></label>
+              <label class="chip opt"><input type="radio" name="mode" value="Retiro en el local"><span>Retiro en el local</span></label>
+            </div>
+          </div>
+          <label id="addrWrap">Dirección<textarea id="cAddr" autocomplete="street-address" placeholder="Calle, casa, punto de referencia"></textarea></label>
+          <label>Método de pago
+            <select id="cPay">
+              <option>Pago Móvil</option><option>Efectivo (USD)</option><option>Efectivo (Bs)</option><option>Zelle</option><option>Punto de venta</option>
+            </select>
+          </label>
+          <div class="err" id="cErr" role="alert"></div>
+        </div>
+      </div>
+    </div>
+    <div class="dlg-foot"><button class="btn wa" id="send">Enviar pedido por WhatsApp</button></div>
+  </div>
+</dialog>
+
+<script src="menu.js"></script>
+<script>
+
+// El menú vive en menu.js (lo genera admin.html). Con ?preview se ve el borrador guardado en el panel.
+let DATA = window.MENU_DATA;
+if (new URLSearchParams(location.search).has('preview')) {
+  try { DATA = JSON.parse(localStorage.getItem('doblette-admin-draft')) || DATA; } catch {}
+}
+// n: nombre, p: precio, g: porción, r: ingredientes que se pueden quitar, d: texto extra, o: opción a elegir, x: admite extras
+// Datos del negocio (se editan en el panel). WhatsApp: código de país + número, sin "+" ni espacios
+const INFO = DATA.info || {};
+const WHATSAPP = INFO.whatsapp || '584120491805';
+const EXTRAS = DATA.extras;
+const MENU = DATA.menu.filter(c => c.items.length);
+
+const $ = s => document.querySelector(s);
+const money = v => '$' + v.toFixed(2);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g,'-');
+const ALL = MENU.flatMap(c => c.items);
+
+// Render del menú
+$('#tabs').innerHTML = MENU.map(c => `<a href="#${slug(c.cat)}">${esc(c.cat)}</a>`).join('');
+$('#cats').innerHTML = MENU.map(c => `
+  <div class="cat" id="${slug(c.cat)}">
+    <h3>${esc(c.cat)}</h3>${c.note ? `<div class="note">${esc(c.note)}</div>` : ''}
+    <div class="grid">${c.items.map(it => `
+      <button class="item" data-i="${ALL.indexOf(it)}">
+        <h4>${esc(it.n)}</h4>
+        ${it.g ? `<div class="g">${esc(it.g)}</div>` : ''}
+        <div class="d">${esc([it.d, it.r && it.r.join(', ')].filter(Boolean).join(' · '))}</div>
+        <div class="row"><span class="price">${it.o && it.o.c[0][1] ? 'desde ' : ''}${money(it.p)}</span><span class="add">Agregar</span></div>
+      </button>`).join('')}
+    </div>
+  </div>`).join('');
+
+// Pestaña activa según scroll
+const tabLinks = [...document.querySelectorAll('#tabs a')];
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  tabLinks.forEach(a => a.classList.toggle('on', a.hash === '#' + e.target.id));
+  const on = tabLinks.find(a => a.classList.contains('on'));
+  on.parentNode.scrollTo({left: on.offsetLeft - 16, behavior: 'smooth'});
+}), {rootMargin:'-140px 0px -65% 0px'});
+document.querySelectorAll('.cat').forEach(el => io.observe(el));
+
+// Carrito (se guarda en el navegador para no perderlo al recargar)
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem('doblette-cart')) || []; } catch {}
+const save = () => { try { localStorage.setItem('doblette-cart', JSON.stringify(cart)); } catch {} };
+const lineTotal = l => (l.price + l.extras.reduce((s, e) => s + e[1], 0)) * l.qty;
+
+// Modal de personalización
+let cur, qty;
+const itemDlg = $('#itemDlg');
+function chip(kind, type, name, value, label, checked) {
+  return `<label class="chip ${kind}"><input type="${type}" name="${name}" value="${esc(value)}"${checked ? ' checked' : ''}><span>${esc(label)}</span></label>`;
+}
+function openItem(i) {
+  cur = ALL[i]; qty = 1;
+  $('#itemTitle').textContent = cur.n;
+  $('#itemDesc').textContent = [cur.g, cur.d].filter(Boolean).join(' · ');
+  $('#itemBody').innerHTML = [
+    cur.o && `<fieldset><legend>${cur.o.t}</legend><div class="chips">${cur.o.c.map((c, k) =>
+      chip('opt', 'radio', 'opt', k, c[0] + (c[1] ? ' · ' + money(c[1]) : ''), k === 0)).join('')}</div></fieldset>`,
+    cur.r && `<fieldset><legend>¿Quieres quitar algo?</legend><p class="hint">Toca lo que NO quieres en tu plato.</p><div class="chips">${cur.r.map(r =>
+      chip('rm', 'checkbox', 'rm', r, r)).join('')}</div></fieldset>`,
+    cur.x && `<fieldset><legend>Agregar extras</legend><div class="chips">${EXTRAS.map((e, k) =>
+      chip('ex', 'checkbox', 'ex', k, `+ ${e[0]} · ${money(e[1])}`)).join('')}</div></fieldset>`,
+    `<fieldset><legend>Nota para la cocina</legend><textarea name="note" maxlength="200" placeholder="${cur.note ? 'Ej: sabor del refresco, salsas que prefieres…' : 'Ej: bien cocido, salsa aparte…'}"></textarea></fieldset>`
+  ].filter(Boolean).join('');
+  refreshItem();
+  itemDlg.showModal();
+}
+function readItem() {
+  const f = $('#itemForm');
+  const o = cur.o && cur.o.c[+f.querySelector('[name=opt]:checked').value];
+  return {
+    name: cur.n,
+    option: o ? o[0] : '',
+    price: (o && o[1]) || cur.p,
+    removed: [...f.querySelectorAll('[name=rm]:checked')].map(x => x.value),
+    extras: [...f.querySelectorAll('[name=ex]:checked')].map(x => EXTRAS[+x.value]),
+    note: f.note.value.trim(),
+    qty
+  };
+}
+function refreshItem() {
+  $('#itemQty').value = qty;
+  $('#itemAdd').textContent = 'Agregar · ' + money(lineTotal(readItem()));
+}
+$('#cats').addEventListener('click', e => { const b = e.target.closest('.item'); b && openItem(+b.dataset.i); });
+$('#itemForm').addEventListener('change', refreshItem);
+itemDlg.querySelectorAll('[data-q]').forEach(b => b.onclick = () => { qty = Math.max(1, Math.min(20, qty + +b.dataset.q)); refreshItem(); });
+$('#itemForm').addEventListener('submit', e => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  cart.push(readItem()); save(); renderCart();
+  document.querySelectorAll('.cart-btn').forEach(b => { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); });
+});
+itemDlg.addEventListener('click', e => { if (e.target === itemDlg) itemDlg.close(); });
+
+// Panel del pedido
+const cartDlg = $('#cartDlg');
+function renderCart() {
+  const n = cart.reduce((s, l) => s + l.qty, 0);
+  document.querySelectorAll('.count').forEach(c => c.textContent = n);
+  $('.fab').classList.toggle('show', n > 0);
+  $('#checkout').hidden = $('#send').hidden = !cart.length;
+  $('#cartLines').innerHTML = cart.length ? cart.map((l, i) => `
+    <div class="line">
+      <h4>${esc(l.name)}${l.option ? ' · ' + esc(l.option) : ''}</h4><span class="lp">${money(lineTotal(l))}</span>
+      <ul>
+        ${l.removed.length ? `<li class="sin">Sin: ${l.removed.map(esc).join(', ')}</li>` : ''}
+        ${l.extras.map(e => `<li class="ext">+ ${esc(e[0])} (${money(e[1])})</li>`).join('')}
+        ${l.note ? `<li>Nota: ${esc(l.note)}</li>` : ''}
+      </ul>
+      <div class="ctl">
+        <div class="qty"><button data-l="${i}" data-d="-1" aria-label="Menos">−</button><output>${l.qty}</output><button data-l="${i}" data-d="1" aria-label="Más">+</button></div>
+        <button class="del" data-del="${i}">Eliminar</button>
+      </div>
+    </div>`).join('') : '<p class="empty">Tu pedido está vacío.<br>Agrega algo rico del menú 🍔</p>';
+  $('#cartTotal').textContent = money(cart.reduce((s, l) => s + lineTotal(l), 0));
+}
+$('#cartLines').addEventListener('click', e => {
+  const t = e.target;
+  if (t.dataset.del) cart.splice(+t.dataset.del, 1);
+  else if (t.dataset.l) { const l = cart[+t.dataset.l]; l.qty = Math.max(1, Math.min(20, l.qty + +t.dataset.d)); }
+  else return;
+  save(); renderCart();
+});
+document.querySelectorAll('[data-open-cart]').forEach(b => b.onclick = () => cartDlg.showModal());
+cartDlg.querySelector('[data-close]').onclick = () => cartDlg.close();
+cartDlg.addEventListener('click', e => { if (e.target === cartDlg) cartDlg.close(); });
+document.querySelectorAll('[name=mode]').forEach(r => r.onchange = () => $('#addrWrap').hidden = r.value !== 'Delivery' && r.checked);
+
+// Mensaje para WhatsApp
+function buildMessage(cart, c) {
+  const lines = ['*NUEVO PEDIDO · DOBLETTE* 🍔', ''];
+  cart.forEach(l => {
+    lines.push(`*${l.qty}x ${l.name}${l.option ? ' (' + l.option + ')' : ''}* · ${money(lineTotal(l))}`);
+    if (l.removed.length) lines.push('   ❌ SIN: ' + l.removed.join(', '));
+    l.extras.forEach(e => lines.push(`   ➕ ${e[0]} (${money(e[1])})`));
+    if (l.note) lines.push('   📝 ' + l.note);
+  });
+  lines.push('', `*TOTAL: ${money(cart.reduce((s, l) => s + lineTotal(l), 0))}* (USD tasa BCV, sin IVA)`, '',
+    `👤 Nombre: ${c.name}`, `🛵 Entrega: ${c.mode}`);
+  if (c.mode === 'Delivery') lines.push(`📍 Dirección: ${c.addr}`);
+  lines.push(`💳 Pago: ${c.pay}`);
+  return lines.join('\n');
+}
+$('#send').onclick = () => {
+  const c = { name: $('#cName').value.trim(), mode: $('[name=mode]:checked').value, addr: $('#cAddr').value.trim(), pay: $('#cPay').value };
+  const err = !c.name ? 'Escribe tu nombre.' : c.mode === 'Delivery' && !c.addr ? 'Escribe la dirección de entrega.' : '';
+  $('#cErr').textContent = err;
+  if (err) return;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(buildMessage(cart, c))}`, '_blank');
+};
+
+$('#waDirect').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('¡Hola Doblette! Quiero hacer una consulta.')}`;
+if (INFO.horario) $('#infoHor').textContent = INFO.horario;
+if (INFO.direccion) $('#infoDir').textContent = INFO.direccion;
+$('#year').textContent = new Date().getFullYear();
+renderCart();
+
+// Autocomprobación del cálculo: precio de opción + extras, por cantidad
+console.assert(lineTotal({price:9, extras:[['Tocineta',2],['Guacamole',3.5]], qty:2}) === 29, 'lineTotal');
+</script>
+</body>
+</html>
